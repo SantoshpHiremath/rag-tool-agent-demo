@@ -109,7 +109,20 @@ chose for each one, plus its final answer:
   a restricted `ast`-based evaluator.
 - Practical engineering habits: local-model setup, offline sanity tests,
   clear module boundaries, no secrets to manage.
+Testing
 
+The project includes a pytest test suite (tests/) covering the parts of the system that can be tested deterministically, without requiring a live Ollama instance:
+
+tests/test_calculator_tool.py (19 tests) — unit tests for safe_calculate(), the AST-based arithmetic evaluator behind the calculator tool. Covers correctness across all supported operators, operator precedence and parentheses, and — since this function is invoked by an LLM agent on free-text input — a dedicated security test class confirming it rejects code-injection attempts (__import__, attribute access, function calls) rather than falling back to eval()-style execution. One test documents a real, verified edge case: the evaluator's ast.Constant check also matches string literals, so safe_calculate("'a' + 'b'") returns "ab" rather than raising — not a security issue (no code execution is possible), but worth knowing if a stricter numeric-only version is needed later.
+
+tests/test_agent_routing.py (10 tests) — verifies the agent's tool-routing wiring: that calculator and search_notes are registered under the names the system prompt refers to, and — using a mocked LLM response rather than a live model call — that the agent's orchestration logic correctly invokes the right tool and unwraps the final answer for calculator questions, dataset questions, and general-knowledge questions. This separates orchestration correctness (deterministic, unit-testable) from LLM reasoning quality (which needs a different kind of evaluation, e.g. an eval set run against a live model).
+
+Run the tests:
+
+bashpip install -r requirements.txt -r requirements-dev.txt
+pytest
+
+All 29 tests pass against the current implementation.
 ## Possible extensions
 
 - Swap the local FAISS index for a hosted vector DB (e.g. Qdrant) to
