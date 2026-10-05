@@ -8,13 +8,9 @@ over the two tools this project defines (search_notes, calculator), and
 lets the LLM (llama3.2, running locally via Ollama) decide per-question
 which tool -- if any -- to call.
 
-This is genuinely agentic in the sense that matters for this project:
-the routing decision (retrieve vs. calculate vs. answer directly) is
-made by the model reasoning over the question and the tools' names and
-descriptions, not by a hand-rolled if/else dispatcher (that pattern is
-used instead in the StubAgentRunner/StubLLMRunner classes elsewhere in
-this portfolio, precisely to make routing testable without a live LLM --
-see rag-tool-api-docker/agent_runner.py for that contrast).
+The routing decision (retrieve vs. calculate vs. answer directly) is made
+by the model reasoning over the question and the tools' names and
+descriptions, rather than by a hand-written if/else dispatcher.
 """
 from __future__ import annotations
 

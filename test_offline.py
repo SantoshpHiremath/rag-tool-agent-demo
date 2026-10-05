@@ -5,10 +5,8 @@ test_offline.py
 Manual sanity checks that run without Ollama needing to be active --
 confirms the project structure and safe-calculator logic are correct
 before running the live demo (which needs a running Ollama instance
-with llama3.2 and nomic-embed-text pulled). This mirrors the "offline
-first" verification approach used throughout this portfolio: check what
-can be checked deterministically before attempting anything that
-depends on a live external model.
+with llama3.2 and nomic-embed-text pulled). It checks everything that can be
+verified deterministically before running the live model demo.
 
 Run with: python test_offline.py
 """
