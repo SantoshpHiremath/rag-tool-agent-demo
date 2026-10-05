@@ -138,7 +138,7 @@ example questions.
 This project holds the core RAG + tool-routing agent logic. Two other
 projects build on it:
 
-- [`rag-tool-api-docker`](../rag-tool-api-docker/): a Flask HTTP API around
+- [`rag-tool-api`](https://github.com/SantoshpHiremath/rag-tool-api): a Flask HTTP API around
   this agent (`AGENT_MODE=real` calls this project's `agent.run_agent()`),
   containerized with Docker (multi-stage build, non-root user,
   healthcheck). 16 tests.
